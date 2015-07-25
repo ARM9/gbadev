@@ -1,0 +1,17 @@
+build/
+
+.*~
+*~
+*.swp
+*.swo
+*.tmp
+
+*.gba
+*.elf
+*.map
+*.sym
+*.sav
+*.o
+*.d
+*.a
+
