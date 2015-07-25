@@ -19,6 +19,7 @@ loop:
     .thumb_func
 _blx_r3_stub:
     bx r3
+
     .thumb_func
 foo:
     push {lr}
