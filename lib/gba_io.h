@@ -5,15 +5,57 @@
 #define CGRAM   (0x05000000)
 #define VRAM    (0x06000000)
 
+// Use as such:
+//  ldr r0, =IO+VCOUNT
+//  str r1, [r0]
+// or:
+//  mov r0, #IO
+//  str r1, [r0, #BG0CNT]
+//  str r2, [r0, #BG1CNT]
+
 // LCD registers
 #define DISPCNT     (0x0)       //
+#define MODE_0          (0)
+#define MODE_1          (1)
+#define MODE_2          (2)
+#define MODE_3          (3)
+#define MODE_4          (4)
+#define MODE_5          (5)
+#define PAGE_BIT(x)     (((x) & 1)<<4)
+#define OAM_HBLANK      (0x0020)
+#define OAM_1D          (0x0040)
+#define FORCE_BLANK     (0x0080)
+#define BG0_ENABLE      (0x0100)
+#define BG1_ENABLE      (0x0200)
+#define BG2_ENABLE      (0x0400)
+#define BG3_ENABLE      (0x0800)
+#define OBJ_ENABLE      (0x1000)
+#define WIN0_ENABLE     (0x2000)
+#define WIN1_ENABLE     (0x4000)
+#define WINOBJ_ENABLE   (0x8000)
+
 #define DISPSTAT    (0x4)       //
+#define VBLANK      (0x0001)    // Set on scanline 160-226
+#define HBLANK      (0x0002)    // Set during hblank on all scanlines
+#define VCOUNT_FLAG (0x0004)    // 
+#define VBL_ENABLE  (0x0008)
+#define HBL_ENABLE  (0x0010)
+#define VIRQ_ENABLE (0x0020)
+#define VIRQ_Y(x)   (((x) & 0xFF)<<8)
+
 #define VCOUNT      (0x6)       //
 
 #define BG0CNT      (0x8)       //
 #define BG1CNT      (0xA)       //
 #define BG2CNT      (0xC)       //
 #define BG3CNT      (0xE)       //
+#define BG_PRIO(x)      ((x) & 3)
+#define CHR_BASE(x)     (((x) & 3)<<2)
+#define MOSAIC_ENABLE   (0x0040)
+#define BG_16COLOR      (0x0000)
+#define BG_256COLOR     (0x0080)
+#define MAP_BASE(x)     (((x) & 0xF)<<8)
+#define MAP_SIZE(x)     (((x) & 3)<<14)
 
 #define BG0HOFS     (0x10)      //
 #define BG0VOFS     (0x12)      //

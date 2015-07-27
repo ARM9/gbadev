@@ -13,7 +13,7 @@ INCDIRS		:= $(foreach dir,$(INCLUDES),-I$(dir))
 
 ASFLAGS		:= -g -mcpu=arm7tdmi -mthumb-interwork $(INCDIRS)
 LDFLAGS		:= -g -T ../lib/cart.ld
-CPPFLAGS	:= 
+CPPFLAGS	:= $(INCDIRS)
 
 SFILES	:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 OFILES	:= $(SFILES:%.S=build/%.o)

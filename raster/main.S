@@ -1,9 +1,15 @@
 
+    #include "gba_io.h"
+
     .text
     .thumb_func
     .align
     .global main
 main:
+    mov r0, #0x4
+    lsl r0, #24
+    mov r1, #VBL_ENABLE
+    str r1, [r0, #DISPSTAT]
     ldr r0, =loop
     bx r0
 
@@ -14,6 +20,7 @@ loop:
     ldr r0, =foo
     mov lr, pc
     bx r0
+    swi 
     b loop
 
     .thumb_func
@@ -24,10 +31,12 @@ _blx_r3_stub:
 foo:
     push {lr}
 
+    ldr r0, =IO+VCOUNT
     ldr r3, =bar
     bl _blx_r3_stub
 
-    pop {pc}
+    pop {r3}
+    bx r3
     
     .arm
 bar:
