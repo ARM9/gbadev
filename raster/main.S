@@ -18,26 +18,16 @@ main:
     mov r1, #IRQ_VBLANK
     str r1, [r0, #REG_IE]
 
-    ldr r0, =loop
+    ldr r0, =iwram_loop
     bx r0
 
     .section .iwram,"ax",%progbits
     .arm
     .align
-loop:
-    blx_r3(foo)
+iwram_loop:
     swi VBlankIntrWait<<16
-    b loop
+    b iwram_loop
 
-    .thumb_func
-foo:
-    push {lr}
-
-    ldr r0, =IO+REG_VCOUNT
-
-    pop {r3}
-    bx r3
-    
     .arm
     .align
     .global vblankHandler

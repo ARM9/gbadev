@@ -34,14 +34,14 @@
 #define WIN1_ENABLE     (0x4000)
 #define WINOBJ_ENABLE   (0x8000)
 
-#define REG_DISPSTAT    (0x4)       //
-#define VBLANK          (0x0001)    // Set on scanline 160-226
-#define HBLANK          (0x0002)    // Set during hblank on all scanlines
-#define VCOUNT_FLAG     (0x0004)    // 
-#define VBL_ENABLE      (0x0008)
-#define HBL_ENABLE      (0x0010)
-#define VIRQ_ENABLE     (0x0020)
-#define VIRQ_Y(x)       (((x) & 0xFF)<<8)
+#define REG_DISPSTAT        (0x4)       //
+#define VBLANK_FLAG         (0x0001)    // Set on scanline 160-226
+#define HBLANK_FLAG         (0x0002)    // Set during hblank on all scanlines
+#define VCOUNT_FLAG         (0x0004)    // 
+#define VBLANK_ENABLE       (0x0008)
+#define HBLANK_ENABLE       (0x0010)
+#define VCOUNT_IRQ_ENABLE   (0x0020)
+#define VCOUNT_IRQ_Y(x)     (((x) & 0xFF)<<8)
 
 #define REG_VCOUNT      (0x6)       //
 
@@ -118,22 +118,39 @@
 #define REG_FIFO_B      (0xA4)      // W Channel B FIFO
 
 // DMA transfer channels
-#define REG_DMA0SAD     (0xB0)      //
-#define REG_DMA0DAD     (0xB4)      //
-#define REG_DMA0CNT_L   (0xB8)      //
-#define REG_DMA0CNT_H   (0xBA)      //
-#define REG_DMA1SAD     (0xBC)      //
-#define REG_DMA1DAD     (0xC0)      //
-#define REG_DMA1CNT_L   (0xC4)      //
-#define REG_DMA1CNT_H   (0xC6)      //
-#define REG_DMA2SAD     (0xC8)      //
-#define REG_DMA2DAD     (0xCC)      //
-#define REG_DMA2CNT_L   (0xD0)      //
-#define REG_DMA2CNT_H   (0xD2)      //
-#define REG_DMA3SAD     (0xD4)      //
-#define REG_DMA3DAD     (0xD8)      //
-#define REG_DMA3CNT_L   (0xDC)      //
-#define REG_DMA3CNT_H   (0xDE)      //
+#define REG_DMA0SAD     (0xB0)      // Src address 27 bits
+#define REG_DMA0DAD     (0xB4)      // Dest address 27 bits
+#define REG_DMA0CNT_L   (0xB8)      // hword/word count 14 bits
+#define REG_DMA0CNT_H   (0xBA)      // See flags below
+#define REG_DMA1SAD     (0xBC)      // Src address 28 bits
+#define REG_DMA1DAD     (0xC0)      // Dest address 27 bits
+#define REG_DMA1CNT_L   (0xC4)      // hword/word count 14 bits
+#define REG_DMA1CNT_H   (0xC6)
+#define REG_DMA2SAD     (0xC8)      // Src address 28 bits
+#define REG_DMA2DAD     (0xCC)      // Dest address 27 bits
+#define REG_DMA2CNT_L   (0xD0)      // hword/word count 14 bits
+#define REG_DMA2CNT_H   (0xD2)
+#define REG_DMA3SAD     (0xD4)      // Src address 28 bits
+#define REG_DMA3DAD     (0xD8)      // Dest address 28 bits
+#define REG_DMA3CNT_L   (0xDC)      // hword/word count 16 bits
+#define REG_DMA3CNT_H   (0xDE)
+// DMAxCNT_H flags, OR with CNT_L setting and write word to CNT_L
+#define DMA_DST_DEC     (0x00200000)    // Decrement destination pointer
+#define DMA_DST_FIXED   (0x00400000)    // Fixed destination
+#define DMA_DST_INCREL  (0x00600000)    // Increment/reload
+#define DMA_SRC_DEC     (0x00800000)    // Decrement source pointer
+#define DMA_SRC_FIXED   (0x01000000)    // Fixed source
+#define DMA_SRC_INCREL  (0x01800000)
+#define DMA_REPEAT      (0x02000000)
+#define DMA_16          (0x00000000)
+#define DMA_32          (0x04000000)
+#define DMA3_DRQ        (0x08000000)
+#define DMA_VBLANK      (0x10000000)    // Start transfer on VBlank
+#define DMA_HBLANK      (0x20000000)    // Start transfer on HBlank
+#define DMA_SPECIAL     (0x30000000)
+#define DMA_IRQ         (0x40000000)    // Trigger IRQ on end
+#define DMA_ENABLE      (0x80000000)
+#define DMA_DISABLE     (0x00000000)
 
 // Timer registers
 #define REG_TM0CNT_L    (0x100)     //
