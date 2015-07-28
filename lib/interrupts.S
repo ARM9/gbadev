@@ -11,6 +11,7 @@ _irq_handler:
     @ This routine processes an interrupt request and determines which
     @ routine in the global irq table to run and resets the corresponding
     @ IF register flag
+    Break
     mov r0, #IO
     ldr r1, [r0, #REG_IE]
     and r1, r1, r1, lsr #16     @ r1 = IE & IF
@@ -58,7 +59,7 @@ _irq_handler:
 1:
     orr r0, #0x200
     strh r3, [r0, #2]       @ Acknowledge interrupt by writing flag to REG_IF
-    ldr r0, =g_irq_table    @ |
+    adr r0, g_irq_table     @ |
     ldr r1, [r0, r2]        @ | Load interrupt handler from table
     bx r1
 

@@ -37,7 +37,7 @@
 #define REG_DISPSTAT        (0x4)       //
 #define VBLANK_FLAG         (0x0001)    // Set on scanline 160-226
 #define HBLANK_FLAG         (0x0002)    // Set during hblank on all scanlines
-#define VCOUNT_FLAG         (0x0004)    // 
+#define VCOUNT_FLAG         (0x0004)    // Set when REG_VCOUNT = REG_DISPSTAT[8:15]
 #define VBLANK_ENABLE       (0x0008)
 #define HBLANK_ENABLE       (0x0010)
 #define VCOUNT_IRQ_ENABLE   (0x0020)
