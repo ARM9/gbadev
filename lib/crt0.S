@@ -1,4 +1,6 @@
 
+    #include "gba_io.h"
+
     .section .init
     .arm
     .align
@@ -28,36 +30,40 @@ _start:
 
     .align
 _rom_header_end:
-    mov r0, #0x04000000     @ disable interrupts
-    str r0, [r0, #0x208]
+    mov r0, #IO             @ Disable interrupts
+    str r0, [r0, #REG_IME]
 
-    mov r0, #0x12           @ set up irq stack pointer
+    mov r0, #0x12           @ Set up irq stack pointer
     msr cpsr, r0
     ldr sp, =__sp_irq
-    mov r0, #0x1f           @ system mode stack pointer
+    mov r0, #0x1f           @ System mode stack pointer
     msr cpsr, r0
     ldr sp, =__sp_sys
 
-    orr r0, pc, #1          @ switch to thumb state
+    orr r0, pc, #1          @ Switch to thumb state
     bx r0
     .thumb
-    ldr r0, =__iwram_start  @ load iwram sections
+    ldr r0, =__iwram_start  @ Load iwram sections
     ldr r1, =__iwram_lma
     ldr r2, =__iwram_lma_end
     bl _mem_copy
 
-    ldr r0, =__bss_start    @ clear bss section
+    ldr r0, =__bss_start    @ Clear bss section
     ldr r1, =__bss_end
     bl _mem_clear
 
-    ldr r0, =__ewram_start  @ load ewram sections
+    ldr r0, =__ewram_start  @ Load ewram sections
     ldr r1, =__ewram_lma
     ldr r2, =__ewram_lma_end
     bl _mem_copy
 
-    ldr r0, =__sbss_start   @ clear sbss section
+    ldr r0, =__sbss_start   @ Clear sbss section
     ldr r1, =__sbss_end
     bl _mem_clear
+
+    ldr r0, =__iwram_top-4  @ Set interrupt handler
+    ldr r1, =_irq_handler
+    str r1, [r0]
 
     ldr r0, =main
     bx r0
@@ -97,5 +103,12 @@ _mem_clear:
     blo 0b
 1:
     bx lr
+
+    .section .iwram,"ax",%progbits
+    .align 1
+    .thumb_func
+    .global _blx_r3_stub
+_blx_r3_stub:
+    bx r3
 
 @ vim:ft=arm

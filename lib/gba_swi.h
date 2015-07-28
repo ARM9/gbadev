@@ -1,18 +1,17 @@
-#ifndef SWI_H
-#define SWI_H
+#ifndef GBA_SWI_H
+#define GBA_SWI_H
 
 // arm <<16
 #define SoftReset           0x0
 #define RegisterRamReset    0x1
-#define Halt                0x2
-#define Sleep               0x3
 #define GetBiosChecksum     0xD
 #define MultiBoot           0x25
 #define HardReset           0x26
-#define CustomHalt          0x27
 
-#define WaitIRQ             0x4
-#define WaitVBL             0x5
+#define Halt                0x2
+#define Sleep               0x3
+#define IntrWait            0x4
+#define VBlankIntrWait      0x5
 
 #define Div                 0x6
 #define DivArm              0x7
@@ -26,12 +25,12 @@
 #define BgAffineSet         0xE
 #define ObjAffineSet        0xF
 
-#define BitUnpack           0x10
-#define LZ77UnpackWram      0x11
-#define LZ77UnpackVram      0x12
-#define HuffUnpack          0x13
-#define RLEUnpackWram       0x14
-#define RLEUnpackVram       0x15
+#define BitDecomp           0x10
+#define LZ77DecompWram      0x11
+#define LZ77DecompVram      0x12
+#define HuffDecomp          0x13
+#define RLEDecompWram       0x14
+#define RLEDecompVram       0x15
 #define Diff8Wram           0x16
 #define Diff8Vram           0x17
 #define Diff16              0x18
@@ -52,4 +51,4 @@
 #define SoundDriverVSyncOn  0x29
 #define SoundGetJumpList    0x2A
 
-#endif //SWI_H
+#endif //GBA_SWI_H

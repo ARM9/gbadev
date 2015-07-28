@@ -1,15 +1,23 @@
 
     #include "gba_io.h"
+    #include "gba_swi.h"
+    #include "macros.h"
 
     .text
-    .thumb_func
+    .arm
     .align
     .global main
 main:
-    mov r0, #0x4
-    lsl r0, #24
+    ldr r0, =g_vblank_irq_handler
+    ldr r1, =vblankHandler
+    str r1, [r0]
+
+    mov r0, #IO
     mov r1, #VBL_ENABLE
-    str r1, [r0, #DISPSTAT]
+    str r1, [r0, #REG_DISPSTAT]
+    mov r1, #IRQ_VBLANK
+    str r1, [r0, #REG_IE]
+
     ldr r0, =loop
     bx r0
 
@@ -17,29 +25,23 @@ main:
     .arm
     .align
 loop:
-    ldr r0, =foo
-    mov lr, pc
-    bx r0
-    swi 
+    blx_r3(foo)
+    swi VBlankIntrWait<<16
     b loop
-
-    .thumb_func
-_blx_r3_stub:
-    bx r3
 
     .thumb_func
 foo:
     push {lr}
 
-    ldr r0, =IO+VCOUNT
-    ldr r3, =bar
-    bl _blx_r3_stub
+    ldr r0, =IO+REG_VCOUNT
 
     pop {r3}
     bx r3
     
     .arm
-bar:
+    .align
+    .global vblankHandler
+vblankHandler:
     bx lr
 
     .align
