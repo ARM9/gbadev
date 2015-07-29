@@ -62,7 +62,7 @@ _rom_header_end:
     bl _mem_clear
 
     ldr r0, =__iwram_top-4  @ Set interrupt handler
-    ldr r1, =_irq_handler
+    ldr r1, =_irqHandler
     str r1, [r0]
 
     ldr r0, =main

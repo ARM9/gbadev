@@ -6,15 +6,20 @@
 
     .arm
     .align
-    .global _irq_handler
-_irq_handler:
+    .global _irqHandler
+_irqHandler:
     @ This routine processes an interrupt request and determines which
     @ routine in the global irq table to run and resets the corresponding
     @ IF register flag
     Break
     mov r0, #IO
     ldr r1, [r0, #REG_IE]
-    and r1, r1, r1, lsr #16     @ r1 = IE & IF
+    and r1, r1, r1, lsr #16 @ r1 = REG_IE & REG_IF
+
+    ldrh r2, [r0, #-8]      @ Write IE&IF flags to BIOS irq flags (3fffff8)
+    orr r2, r1              @ else VBlankIntrWait gets stuck
+    strh r2, [r0, #-8]
+
     tst r1, #IRQ_GAMEPAK
 0:  bne 0b                      @ "Crash" if gamepak is removed
     mov r2, #0                  @ r2 = Index into interrupt handler table
@@ -59,9 +64,24 @@ _irq_handler:
 1:
     orr r0, #0x200
     strh r3, [r0, #2]       @ Acknowledge interrupt by writing flag to REG_IF
+
+    mrs r0, spsr            @ IRQ disable bit is always cleared in spsr here
+    push {r0, r4-r7, lr}    @ Save caller saved registers and spsr
+                            @ BIOS already saved r0-r3 and r12
+    msr cpsr, r0            @ Enable IRQ, switch to sys mode
+
     adr r0, g_irq_table     @ |
     ldr r1, [r0, r2]        @ | Load interrupt handler from table
+    mov lr, pc
     bx r1
+
+    mov r0, #0x92           @ Disable IRQ, switch to irq mode
+    msr cpsr, r0
+
+    pop {r0, r4-r7, lr}
+    msr spsr, r0
+
+    bx lr
 
     .align
     .global g_irq_table

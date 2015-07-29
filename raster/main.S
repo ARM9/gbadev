@@ -23,10 +23,6 @@ main:
     orr r1, #BG2_ENABLE
     strh r1, [r0, #REG_DISPCNT]
 
-    @ Set up BG registers
-    mov r1, #0
-    strh r1, [r0, #REG_BG2CNT]
-
     ldr r0, =iwram_loop
     bx r0
 
