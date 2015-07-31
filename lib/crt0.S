@@ -72,9 +72,9 @@ _rom_header_end:
     .thumb_func
 _mem_copy:
     // in:
-    //   r0 dest
-    //   r1 src
-    //   r2 end
+    //  r0 dest
+    //  r1 src
+    //  r2 end
     // out: void
     // clobbers: r3
     cmp r1, r2
@@ -90,8 +90,8 @@ _mem_copy:
     .thumb_func
 _mem_clear:
     // in:
-    //   r0 dest
-    //   r1 end
+    //  r0 dest
+    //  r1 end
     // out: void
     // clobbers: r2
     cmp r0, r1

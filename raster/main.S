@@ -27,7 +27,7 @@ main:
 
     ldr r0, =palette
     mov r1, #CGRAM
-    mov r2, #palette_size/4
+    mov r2, #palette.size/4
     swi CpuFastSet<<16
 
     ldr r0, =iwram_loop
@@ -37,10 +37,10 @@ main:
     .arm
     .align
 iwram_loop:
+    mov r0, #0
+    bl clearFramebuffer
+
     swi VBlankIntrWait<<16
-    //mov r0, #CGRAM
-    //ldr r1, =RGB(31,0,0)
-    //strh r1, [r0]
     b iwram_loop
 
     .arm
@@ -49,15 +49,6 @@ iwram_loop:
 vblankHandler:
     push {lr}
     bl readKeys
-    ldr r0, =keys_pressed
-    ldrh r0, [r0]
-    tst r0, #KEY_START
-    beq 0f
-    mov r1, #CGRAM
-    ldrh r2, [r1]
-    add r2, #1
-    strh r2, [r1]
-0:
     pop {pc}
 
 // vim:ft=arm

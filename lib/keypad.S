@@ -7,6 +7,8 @@
     .align
     .global readKeys
 readKeys:
+    // in: void
+    // out: void
     mov r0, #IO
     ldr r1, [r0, #REG_KEYINPUT] // r1 = REG_KEYINPUT
     mov r2, #-1                 // | Invert bits so 0 = released
