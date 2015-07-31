@@ -6,6 +6,7 @@ build/
 *.swo
 *.tmp
 
+*.bin
 *.gba
 *.elf
 *.map

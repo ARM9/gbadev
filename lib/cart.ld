@@ -29,7 +29,7 @@ SECTIONS {
     } >rom
 
     .rodata : {
-        *(.rodata .rodata.*)
+        *(.rodata .rodata.* .rdata .rdata.*)
         . = ALIGN(4);
     } >rom
 

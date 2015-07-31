@@ -1,8 +1,4 @@
-AS	:= arm-none-eabi-as
-LD	:= arm-none-eabi-ld
-CPP	:= arm-none-eabi-cpp
-OBJCOPY	:= arm-none-eabi-objcopy
-OBJDUMP	:= arm-none-eabi-objdump
+include ../base.mk
 
 TARGET		:= $(shell basename $(CURDIR))
 OUTPUT		:= $(TARGET)
@@ -20,10 +16,6 @@ OFILES	:= $(SFILES:%.S=build/%.o)
 
 VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
-#------------------------------------------------
-build/%.o : %.S
-	$(CPP) $(CPPFLAGS) -E -pipe $< | $(AS) $(ASFLAGS) -o $@ -
-#------------------------------------------------
 .PHONY: all clean debug release run
 
 all: release
@@ -37,15 +29,12 @@ release: ASFLAGS	+=
 release: LDFLAGS	+=
 release: $(OUTPUT).gba
 
+$(OUTPUT).gba : $(OUTPUT).elf
+
+$(OUTPUT).elf : $(BUILD) $(OFILES)
+
 $(BUILD):
 	@mkdir -p $@
-
-$(OUTPUT).gba : $(OUTPUT).elf
-	$(OBJCOPY) -O binary $< $@
-	gbafix $@
-
-$(OUTPUT).elf: $(BUILD) $(OFILES)
-	$(LD) $(LDFLAGS) -o $@ $(OFILES)
 
 clean:
 	rm -rf $(OUTPUT).gba $(OUTPUT).elf $(BUILD)

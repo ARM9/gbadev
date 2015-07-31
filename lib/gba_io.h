@@ -6,12 +6,12 @@
 #define VRAM    (0x06000000)
 
 // Use as such:
-//  ldr r0, =IO+VCOUNT
+//  ldr r0, =IO+REG_VCOUNT
 //  str r1, [r0]
 // or:
 //  mov r0, #IO
-//  str r1, [r0, #BG0CNT]
-//  str r2, [r0, #BG1CNT]
+//  str r1, [r0, #REG_BG0CNT]
+//  str r2, [r0, #REG_BG1CNT]
 
 // LCD registers
 #define REG_DISPCNT     (0x0)       //
@@ -21,7 +21,7 @@
 #define MODE_3          (3)
 #define MODE_4          (4)
 #define MODE_5          (5)
-#define PAGE_BIT(x)     (((x) & 1)<<4)
+#define PAGE_SELECT(x)  (((x) & 1)<<4)
 #define OAM_HBLANK      (0x0020)
 #define OAM_1D          (0x0040)
 #define FORCE_BLANK     (0x0080)
