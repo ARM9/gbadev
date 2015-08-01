@@ -11,8 +11,9 @@ ASFLAGS		:= -g -mcpu=arm7tdmi -mthumb-interwork $(INCDIRS)
 LDFLAGS		:= -g -T ../lib/cart.ld
 CPPFLAGS	:= $(INCDIRS)
 
-SFILES	:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
-OFILES	:= $(SFILES:%.S=build/%.o)
+SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
+OFILES		:= $(SFILES:%.S=build/%.o)
+DEPFILES	:= $(OFILES:%.o=%.d)
 
 VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
@@ -41,4 +42,6 @@ clean:
 
 run:
 	mgba -2 $(OUTPUT).gba
+
+-include $(DEPFILES)
 

@@ -5,7 +5,7 @@ export OBJCOPY	:= arm-none-eabi-objcopy
 export OBJDUMP	:= arm-none-eabi-objdump
 
 build/%.o : %.S
-	$(CPP) $(CPPFLAGS) -E -pipe $< | $(AS) $(ASFLAGS) -o $@ -
+	$(CPP) $(CPPFLAGS) -E -MD -MF $(patsubst %.o,%.d,$@) -pipe $< | $(AS) $(ASFLAGS) -o $@ -
 
 %.gba : %.elf
 	$(OBJCOPY) -O binary $< $@

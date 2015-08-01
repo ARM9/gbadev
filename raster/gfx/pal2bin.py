@@ -9,7 +9,7 @@ import io
 import struct
 
 def Usage():
-    print "pal2bin.py file1 file2 ..."
+    print "python pal2bin.py file1 file2 ..."
 
 def main(argv):
     if len(argv) < 1:
@@ -17,6 +17,7 @@ def main(argv):
         return
     
     for file in argv:
+        #filename = file.rsplit('.', 1)[0].rsplit('/', 1)[-1]
         with open(file.rsplit('.', 1)[0] + '.pal.bin', 'wb') as ofile:
             with open(file, 'r') as f:
                 for line in f:
@@ -27,4 +28,3 @@ def main(argv):
                     ofile.write(struct.pack('<h', color))
 
 main(sys.argv[1:])
-

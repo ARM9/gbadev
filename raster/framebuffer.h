@@ -1,8 +1,6 @@
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
-#include "gba_io.h"
-
 #define FB_WIDTH    240
 #define FB_HEIGHT   160
 #define FB_CX       (FB_WIDTH/2)

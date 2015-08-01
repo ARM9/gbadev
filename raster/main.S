@@ -40,6 +40,8 @@ iwram_loop:
     mov r0, #0
     bl clearFramebuffer
 
+    bl fillTriangle
+
     swi VBlankIntrWait<<16
     b iwram_loop
 

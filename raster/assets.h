@@ -3,10 +3,10 @@
 
     .section .rodata
     .align
-    .global palette, palette.end
+    .global palette
 palette:
     .incbin "gfx/palette.pal.bin"
-.equ palette.size, .-palette
+.equ palette.size,.-palette
 
 #endif //ASSETS_H
 // vim:ft=arm
