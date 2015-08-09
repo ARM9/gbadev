@@ -1,4 +1,4 @@
-GBA assembly programming with binutils
+GBA assembly programming with gcc
 
 Calling convention:
 ```

@@ -5,15 +5,14 @@ OUTPUT		:= $(TARGET)
 BUILD		:= build
 SOURCES		:= . ../lib
 INCLUDES	:= $(BUILD) ../lib
-INCDIRS		:= $(foreach dir,$(INCLUDES),-I$(dir))
+INCLUDE		:= $(foreach dir,$(INCLUDES),-I$(dir))
 
-ASFLAGS		:= -g -mcpu=arm7tdmi -mthumb-interwork $(INCDIRS)
+ASFLAGS		:= -g -mcpu=arm7tdmi -mthumb-interwork $(INCLUDE)
 LDFLAGS		:= -g -T ../lib/cart.ld
-CPPFLAGS	:= $(INCDIRS)
 
 SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 OFILES		:= $(SFILES:%.S=build/%.o)
-DEPFILES	:= $(OFILES:%.o=%.d)
+DEPFILES	:= $(OFILES:.o=.d)
 
 VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
@@ -21,9 +20,8 @@ VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
 
 all: release
 
-debug: ASFLAGS	+=
+debug: ASFLAGS	+= -DDEBUG
 debug: LDFLAGS	+=
-debug: CPPFLAGS	+= -DDEBUG
 debug: $(OUTPUT).gba
 
 release: ASFLAGS	+=
