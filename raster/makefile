@@ -1,45 +1,45 @@
 include ../base.mk
 
-TARGET		:= $(shell basename $(CURDIR))
-OUTPUT		:= $(TARGET)
-BUILD		:= build
-SOURCES		:= . ../lib
-INCLUDES	:= $(BUILD) ../lib
-INCLUDE		:= $(foreach dir,$(INCLUDES),-I$(dir))
+target		:= $(shell basename $(CURDIR))
+output		:= $(target)
+build		:= build
+sources		:= . ../lib
+incdirs		:= $(build) ../lib
+includes	:= $(foreach dir,$(incdirs),-I$(dir))
 
-ASFLAGS		:= -g -mcpu=arm7tdmi -mthumb-interwork $(INCLUDE)
-LDFLAGS		:= -g -T ../lib/cart.ld
+asflags		:= -g -mcpu=arm7tdmi -mthumb-interwork $(includes)
+ldflags		:= -g -T ../lib/cart.ld
 
-SFILES		:= $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
-OFILES		:= $(SFILES:%.S=build/%.o)
-DEPFILES	:= $(OFILES:.o=.d)
+sfiles		:= $(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.S)))
+ofiles		:= $(sfiles:%.S=build/%.o)
+depfiles	:= $(ofiles:.o=.d)
 
-VPATH	:= $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
+VPATH	:= $(foreach dir,$(sources),$(CURDIR)/$(dir))
 
 .PHONY: all clean debug release run
 
 all: release
 
-debug: ASFLAGS	+= -DDEBUG
-debug: LDFLAGS	+=
-debug: $(OUTPUT).gba
+debug: asflags	+= -DDEBUG
+debug: ldflags	+=
+debug: $(output).gba
 
-release: ASFLAGS	+=
-release: LDFLAGS	+=
-release: $(OUTPUT).gba
+release: asflags	+=
+release: ldflags	+=
+release: $(output).gba
 
-$(OUTPUT).gba : $(OUTPUT).elf
+$(output).gba : $(output).elf
 
-$(OUTPUT).elf : $(BUILD) $(OFILES)
+$(output).elf : $(build) $(ofiles)
 
-$(BUILD):
+$(build):
 	@mkdir -p $@
 
 clean:
-	rm -rf $(OUTPUT).gba $(OUTPUT).elf $(BUILD)
+	rm -rf $(output).gba $(output).elf $(build)
 
 run:
-	mgba -2 $(OUTPUT).gba
+	mgba -2 $(output).gba
 
--include $(DEPFILES)
+-include $(depfiles)
 

@@ -1,17 +1,20 @@
-export CC	:= arm-none-eabi-gcc
-export AS	:= arm-none-eabi-as
-export LD	:= arm-none-eabi-ld
-export CPP	:= arm-none-eabi-cpp
-export OBJCOPY	:= arm-none-eabi-objcopy
-export OBJDUMP	:= arm-none-eabi-objdump
+CC	:= arm-none-eabi-gcc
+AS	:= arm-none-eabi-as
+LD	:= arm-none-eabi-ld
+CPP	:= arm-none-eabi-cpp
+OBJCOPY	:= arm-none-eabi-objcopy
+OBJDUMP	:= arm-none-eabi-objdump
 
 build/%.o : %.S
-	$(CC) $(ASFLAGS) -MMD -c $< -o $@
+	$(CC) $(asflags) -MMD -c $< -o $@
+
+build/%.o : %.s
+	$(CC) $(asflags) -MMD -c $< -o $@
 
 %.gba : %.elf
 	$(OBJCOPY) -O binary $< $@
 	gbafix $@
 
 %.elf:
-	$(LD) $(LDFLAGS) -o $@ $(OFILES)
+	$(LD) $(ldflags) -o $@ $(ofiles)
 
