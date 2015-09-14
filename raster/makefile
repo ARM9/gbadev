@@ -11,7 +11,7 @@ asflags		:= -g -mcpu=arm7tdmi -mthumb-interwork $(includes)
 ldflags		:= -g -T ../lib/cart.ld
 
 sfiles		:= $(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.S)))
-ofiles		:= $(sfiles:%.S=build/%.o)
+ofiles		:= $(sfiles:%.S=$(build)/%.o)
 depfiles	:= $(ofiles:.o=.d)
 
 VPATH	:= $(foreach dir,$(sources),$(CURDIR)/$(dir))
