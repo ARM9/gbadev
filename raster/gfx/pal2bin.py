@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # Convert CSV 24bit RGB palette to GBA palette
 # Format:
 #255,0,0    
