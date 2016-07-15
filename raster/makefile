@@ -7,7 +7,7 @@ sources		:= . ../lib
 incdirs		:= $(build) ../lib
 includes	:= $(foreach dir,$(incdirs),-I$(dir))
 
-asflags		:= -mcpu=arm7tdmi -mthumb-interwork $(includes)
+asflags		:= -gdwarf-2 -mcpu=arm7tdmi -mthumb-interwork $(includes)
 ldflags		:= -T ../lib/cart.ld
 
 sfiles		:= $(foreach dir,$(sources),$(notdir $(wildcard $(dir)/*.S)))
@@ -20,7 +20,7 @@ VPATH	:= $(foreach dir,$(sources),$(CURDIR)/$(dir))
 
 all: release
 
-debug: asflags	+= -gdwarf-2 -DDEBUG
+debug: asflags	+= -DDEBUG
 debug: ldflags	+=
 debug: $(output).gba
 

@@ -3,7 +3,7 @@
 
 #define Bit(x) (1<<x)
 
-#define RGB(r, g, b) ((b<<10) | (g<<5) | (r))
+#define RGB15(r, g, b) ((b<<10) | (g<<5) | (r))
 
 #ifdef DEBUG
     #define Break mov r11,r11
