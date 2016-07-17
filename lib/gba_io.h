@@ -153,14 +153,15 @@
 #define DMA_DISABLE     (0x00000000)
 
 // Timer registers
-#define REG_TM0CNT_L    (0x100)     //
-#define REG_TM0CNT_H    (0x102)     //
-#define REG_TM1CNT_L    (0x104)     //
-#define REG_TM1CNT_H    (0x106)     //
-#define REG_TM2CNT_L    (0x108)     //
-#define REG_TM2CNT_H    (0x10A)     //
-#define REG_TM3CNT_L    (0x10C)     //
-#define REG_TM3CNT_H    (0x10E)     //
+#define REG_TIMER_BASE  (0x04000100)
+#define REG_TM0CNT_L    (0x00)          //
+#define REG_TM0CNT_H    (0x02)          //
+#define REG_TM1CNT_L    (0x04)          //
+#define REG_TM1CNT_H    (0x06)          //
+#define REG_TM2CNT_L    (0x08)          //
+#define REG_TM2CNT_H    (0x0A)          //
+#define REG_TM3CNT_L    (0x0C)          //
+#define REG_TM3CNT_H    (0x0E)          //
 
 // Serial communication
 #define REG_SIODATA32   (0x120)     //

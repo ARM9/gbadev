@@ -1,4 +1,5 @@
 CC	:= arm-none-eabi-gcc
+CXX	:= arm-none-eabi-g++
 AS	:= arm-none-eabi-as
 LD	:= arm-none-eabi-ld
 CPP	:= arm-none-eabi-cpp

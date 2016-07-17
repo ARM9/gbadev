@@ -2,7 +2,8 @@
     #include "gba_io.h"
     #include "macros.h"
 
-    .section .iwram,"ax",%progbits
+    //.section .iwram,"ax",%progbits
+    .text
     .arm
     .align
     .global readKeys
